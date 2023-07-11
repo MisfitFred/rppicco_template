@@ -4,6 +4,18 @@ This project shall be a template project to develop software for raspberry pi pi
 
 ## setup your environment
 
+First of all we need to download the SDK
+
+    ```bash
+    git submodule update --init
+    ```
+
+## Download source code
+
+### Install needed development packages
+
+### Setup google test framework
+
 ### Raspberry Pi Debug Probe
 
 Due to some trouble I had to get the Raspberry Pi Debug Probe to run on Ubuntu 22.04, I decided to write this short manual which describe what I did. Unfortunately this manual was written afterward, I might be the case that I missed some steps. May you find a way to let me know the trouble you had that I get the chance to fix this manual.
@@ -29,3 +41,7 @@ Then you can follow the manual given as [reference][id1]
 ```
 
 [id1]: https://www.raspberrypi.com/documentation/microcontrollers/debug-probe.html#installing-gdb
+
+#### Grant USB access without root privileges
+
+@todo
