@@ -1,20 +1,29 @@
-# Raspberry PI picco template project
+# Raspberry PI pico template project
 
-This project shall be a template project to develop software for raspberry pi picco on an ubuntu 22.04 LTS system.
+This project shall be a template project to develop software for raspberry pi pico.
 
 ## setup your environment
 
-First of all we need to download the SDK
+A dev container is used to build the binaries. To create the container and start a bash inside call
 
-    ```bash
-    git submodule update --init
-    ```
+```bash
+    ./startDocker.sh
+```
 
-## Download source code
+To trigger the build, within the dev container
 
-### Install needed development packages
+```bash
+    cmake -S . -B ./build -G Ninja
+    cd build 
+```
 
-### Setup google test framework
+after the first cmake run
+
+```bash
+    ninja 
+```
+
+can be used to build the binaries
 
 ### Raspberry Pi Debug Probe
 
@@ -40,8 +49,37 @@ Then you can follow the manual given as [reference][id1]
     sudo make install
 ```
 
+#### Flash target with OpenOCD
+
+```bash
+    sudo openocd -f interface/cmsis-dap.cfg -f target/rp2040.cfg -c "adapter speed 5000" -c "program blink.elf verify reset exit"
+```
+
+#### Start  OpenOCD
+
+```bash
+    openocd -c "gdb_port 50000" -c "tcl_port 50001" -c "telnet_port 50002" -s /home/matthias/work/pico/pico-examples -f /home/matthias/.vscode-server/extensions/marus25.cortex-debug-1.12.0/support/openocd-helpers.tcl -f interface/cmsis-dap.cfg -f target/rp2040.cfg -c "adapter speed 5000"
+```
+
+#### WIP
+
+To be clarified if this is needed
+```bash
+    sudo apt update
+    sudo apt install binutils-multiarch
+    cd /usr/bin
+    ln -s /usr/bin/objdump objdump-multiarch
+    ln -s /usr/bin/nm nm-multiarch 
+```
+
 [id1]: https://www.raspberrypi.com/documentation/microcontrollers/debug-probe.html#installing-gdb
 
 #### Grant USB access without root privileges
+    
+    @todo check code below
 
-@todo
+    ```bash
+        sudo cp 99-rpi-pico.rules /etc/udev/rules.d/
+        sudo udevadm control --reload-rules
+        sudo udevadm trigger
+    ```
